@@ -15,7 +15,7 @@ public class Forest {
     private Tree[][] grid;
 
     public Forest(String name, String type, String vegetation, double burnRate, int burnDuration, int initialTreeCount, int gridRows, int gridCols) {
-        this.grid = null; //TODO; initialize grid to using gridRows and gridCols
+        this.grid = new Tree[gridRows][gridCols]; //TODO; initialize grid to using gridRows and gridCols
         this.name = name;
         this.type = type;
         this.vegetation = vegetation;
@@ -26,6 +26,23 @@ public class Forest {
     }
     
     public void initializeForest(){
+        for(int row = 0; row < grid.length; row ++){
+            for (int col = 0; col <grid[0].length; col++){
+                grid[row][col] = new Tree(Tree.EMPTY);
+            }
+        }
+        
+        int count = 0;
+        while (count < initialTreeCount){
+            int randrow = (int)(Math.random()* grid.length);
+            int randcol = (int)(Math.random()* grid[0].length);
+            if(grid[randrow][randcol].getState() == (Tree.EMPTY) || grid[randrow][randcol].getState() == (Tree.BURNING) ){
+                grid[randrow][randcol].setState(Tree.TREE);
+                count ++;
+
+            }
+        }
+
         // Step 1: Determine how many cells in the grid should start as TREE
         //         based on initialTreeCount and the grid dimensions.
         // Step 2: Fill the grid with EMPTY trees first so every cell has a Tree object.
